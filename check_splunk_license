@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+from check_splunk import CheckSplunk
+import sys
+
+
+SPLUNK_SERVER = sys.argv[1]
+SPLUNK_USERNAME = sys.argv[2]
+SPLUNK_PASSWORD = sys.argv[3]
+try:
+	SPLUNK_POOL = sys.argv[4]
+except:
+	SPLUNK_POOL = 'auto_generated_pool_enterprise'
+
+WARN_PERCENT = 75
+CRIT_PERCENT = 90
+
+
+args = [
+    "-H", SPLUNK_SERVER,
+    "-u", SPLUNK_USERNAME,
+    "-p", SPLUNK_PASSWORD,
+    "-L", SPLUNK_POOL,
+    "-W", str(WARN_PERCENT),
+    "-C", str(CRIT_PERCENT),
+]
+
+CheckSplunk(args).check_license().exit()
